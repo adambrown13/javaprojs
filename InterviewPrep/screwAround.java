@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 class screwAround{
 
@@ -45,7 +46,7 @@ class screwAround{
         System.out.println(threeOne + " | " + threeTwo + " | " + threeThree);
     }
 
-    public void move(int player, int place){
+    public boolean move(int player, int place){
         String mark;
         if (player == 0) {
             mark = "X";
@@ -55,43 +56,69 @@ class screwAround{
         int x = place/10;
         int y = place%10;
         if(x > 3 || x < 1 || y > 3 || y < 1) {
-            System.out.println("Invalid Move!");
-            return;
+            return false;
         }
         if(x == 1) {
             if (y == 1) {
+                if (oneOne != " ") {
+                    return false;
+                }
                 oneOne = mark;
-                return;
+                return true;
             }
             if (y == 2) {
+                if (oneTwo != " ") {
+                    return false;
+                }
                 oneTwo = mark;
-                return;
+                return true;
+            }
+            if (oneThree != " ") {
+                    return false;
             }
             oneThree = mark;
-            return;
+            return true;
         }
         if(x == 2) {
             if (y == 1) {
+                if (twoOne != " ") {
+                    return false;
+                }
                 twoOne = mark;
-                return;
+                return true;
             }
             if (y == 2) {
+                if (twoTwo != " ") {
+                    return false;
+                }
                 twoTwo = mark;
-                return;
+                return true;
+            }
+            if (twoThree != " ") {
+                    return false;
             }
             twoThree = mark;
-            return;
+            return true;
         }
         if (y == 1) {
+            if (threeOne != " ") {
+                return false;
+            }
             threeOne = mark;
-            return;
+            return true;
         }
         if (y == 2) {
+            if (threeTwo != " ") {
+                return false;
+            }
             threeTwo = mark;
-            return;
+            return true;
+        }
+        if (threeThree != " ") {
+            return false;
         }
         threeThree = mark;
-        return;
+        return true;
         
 
     }
@@ -120,31 +147,91 @@ class screwAround{
         return 0;
     }
 
-    public static void main(String[] args) {
-        screwAround board = new screwAround();
+    public void humans(String playerOne, String playerTwo){
         Scanner scanner = new Scanner(System.in);
-        board.boardReset();
-        System.out.println("What is player 1's name?");
-        String playerOne = scanner.next();
-        System.out.println("What is player 2's name?");
-        String playerTwo = scanner.next();
         int counter = 0;
-        while (board.win()==0) {
+        while (win()==0 && counter < 9) {
             if (counter%2 == 0) {
                 System.out.println(playerOne + ", play!");
             } else {
                 System.out.println(playerTwo + ", play!");
             }
             int movePlay = Integer.parseInt(scanner.next());
-            board.move(counter%2, movePlay);
-            board.printBoard();
-            counter += 1;
+            if (move(counter%2, movePlay)) {
+                printBoard();
+                counter += 1;
+            }else{
+                System.out.println("Invalid Move");
+            }
+            
         }
-        if (board.win() == 1) {
-            System.out.println("Congrats, "+ playerOne +", you won!");    
-        } else{
-            System.out.println("Congrats, "+ playerTwo +", you won!");    
+    }
+    public void simpleBots(){
+        int counter = 0;
+        int[] moves = {11, 12, 13, 21, 22, 23, 31, 32, 33};
+        boolean[] chosen = {false, false, false, false, false, false, false, false, false};
+        while (win()==0 && counter < 9) {
+            if (counter%2 == 0) {
+                System.out.println("First Bot is going, play!");
+            } else {
+                System.out.println("Second Bot is going, play!");
+            }
+            boolean chosenPiece = true;
+            int selection = -1;
+            while (chosenPiece) {
+                selection = new Random().nextInt(moves.length);
+                chosenPiece = chosen[selection];
+            }
+            chosen[selection] = true;
+            int movePlay = moves[selection];
+            if (move(counter%2, movePlay)) {
+                printBoard();
+                counter += 1;
+            }else{
+                System.out.println("Invalid Move");
+            }
+            
         }
+    }
+
+    public static void main(String[] args) {
+        screwAround board = new screwAround();
+        board.boardReset();
+        if (args.length == 0) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("What is player 1's name?");
+            String playerOne = scanner.next();
+            System.out.println("What is player 2's name?");
+            String playerTwo = scanner.next();
+            board.humans(playerOne, playerTwo);
+            if (board.win() == 1) {
+                System.out.println("Congrats, "+ playerOne +", you won!");
+                return;    
+            } 
+            if (board.win() == 2) {
+                System.out.println("Congrats, "+ playerTwo +", you won!");    
+                return;
+            } else {
+                System.out.println("It's a draw!");    
+                return;
+            }    
+        } else {
+            board.simpleBots();
+            if (board.win() == 1) {
+                System.out.println("First Bot won!");
+                return;    
+            } 
+            if (board.win() == 2) {
+                System.out.println("Second Bot won!");    
+                return;
+            } else {
+                System.out.println("It's a draw!");    
+                return;
+            }  
+
+        }
+        
+        
         
 
     }
