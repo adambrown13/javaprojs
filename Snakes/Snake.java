@@ -7,12 +7,20 @@ public class Snake {
 
     public Snake(){
         tail = new ArrayList<int[]>();
-        tail.add(new int[] {16, 17});
-        tail.add(new int[] {16, 18});
         tail.add(new int[] {16, 19});
+        tail.add(new int[] {16, 18});
+        tail.add(new int[] {16, 17});
         head[0] = 16;
         head[1] = 16;
         size = 4;
+
+    }
+
+    public void down() {
+        tail.remove(0);
+        tail.add(new int[] {head[0], head[1]});
+        int temp = head[1];
+        head[1] = temp - 1;
 
     }
 
