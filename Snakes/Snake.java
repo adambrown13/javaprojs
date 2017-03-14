@@ -2,18 +2,19 @@ import java.util.ArrayList;
 
 public class Snake {
     int size;
-    ArrayList<Integer[]> tail;
-    int[] head = int[2];
+    ArrayList<int[]> tail;
+    int[] head = {0,0};
 
     public Snake(){
-        tail = new ArrayList<Integer[]>();
+        tail = new ArrayList<int[]>();
         int[] inputArr = {16, 17};
         tail.add(inputArr);
-        int[] inputArr = {16, 18};
+        inputArr[1] = 18;
         tail.add(inputArr);
-        int[] inputArr = {16, 19};
+        inputArr[1] = 19;
         tail.add(inputArr);
-        head = [16, 16];
+        head[0] = 16;
+        head[1] = 16;
 
     }
 
