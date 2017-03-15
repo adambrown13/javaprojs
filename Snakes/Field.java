@@ -141,6 +141,7 @@ public class Field{
 
         }
         
-        System.out.println("The Snake Has Died");
+        StdDrawPlus.text(16.5, 18, "The Snake Has Died");
+        StdDrawPlus.text(16.5, 14, "Final Score: " + test.score);
     }
 }
