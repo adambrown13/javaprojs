@@ -77,9 +77,11 @@ public class Field{
         if (head[0] == 0 || head[0] == 33 || head[1] == 0 || head[1] == 33) {
             return false;
         }
-        /*if (tail.contains(head)) {
-            return
-        }*/
+        for (int[] segment : tail) {
+            if (head[0] == segment[0] && head[1] == segment[1]){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -95,7 +97,7 @@ public class Field{
             test.drawSnake();
             test.foodFound();
             test.drawFood();
-            while (i < 20000000/((test.score + 1) * 4)) {
+            while (i < 20000000/((test.score + 1) * 8)) {
                 i += 1;
             }
             if(StdDrawPlus.isKeyPressed(37)){
